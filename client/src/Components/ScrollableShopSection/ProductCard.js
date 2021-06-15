@@ -17,8 +17,8 @@ function ProductCard(props){
                 //to={`/products/${props.product.id}`}
                 className="h-2/3 overflow-hidden flex items-center justify-center"
                 >
-                    <div className="px-1 w-40">
-                        <img alt='product item' className="w-full"  src={props.product.images[0].image} draggable="false"  />
+                    <div className="px-1 w-40 h-40 bg-no-repeat bg-center bg-contain" style={{backgroundImage: `url(${props.product.images[0].image})`}}>
+        
                     </div>
                 </div>
 

@@ -64,7 +64,7 @@ export default function BannerAd(){
                         className="h-48 md:h-52 lg:h-64 2xl:h-80 w-full absolute"
                         style={{ ...props}}
                     >
-                    <img className="block mx-auto w-full rounded-xl" alt="discounted product" src={`https://images.unsplash.com/${item.url}`} />
+                    <img className="block mx-auto w-full rounded-xl" draggable="false" alt="discounted product" src={`https://images.unsplash.com/${item.url}`} />
                     </animated.div>
                 ))}
             </div>
