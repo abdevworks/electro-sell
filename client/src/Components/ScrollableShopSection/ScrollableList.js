@@ -8,6 +8,12 @@ export default function ScrollableList(props) {
   const [componentWidth, setComponentWidth] = useState(window.innerWidth);
   const {productData, displayAsRows=false} = props;
   const scrollableListRef = useRef(null);
+
+  /* Variables to calculate list movement bounds */
+  const numberOfElementsOnTheList = 8;
+  const numberOfPartiallyVisibleElements = 1;
+  const [numberOfVisibleElements, setNumberOfVisibleElements] = useState(4);
+  const [elementSizeInComparisionToComponent, setElementSizeInComparisionToComponent] = useState(0.22); 
   
   
   useEffect ( () => {
@@ -15,19 +21,38 @@ export default function ScrollableList(props) {
     if(scrollableListRef.current){
         scrollableListWidth  = scrollableListRef.current.offsetWidth; 
         setComponentWidth(scrollableListWidth);
+        console.log(scrollableListWidth);
     }
-    console.log(scrollableListRef.current.classList);
+    //console.log(scrollableListRef.current.classList);
 }, [scrollableListRef]);
 
+useEffect(() => {
+  if(componentWidth < 711){
+    setNumberOfVisibleElements(3);
+    setElementSizeInComparisionToComponent(0.3);
+  }else if(componentWidth >= 711 && componentWidth < 967){
+    setNumberOfVisibleElements(4);
+    setElementSizeInComparisionToComponent(0.22);
+  }else if(componentWidth >= 967){
+    setNumberOfVisibleElements(5);
+    setElementSizeInComparisionToComponent(0.18);
+  }
+}, [componentWidth])
+
   function calculateDragBounds(){
-    let dragBound = componentWidth * 0.3 * 4 + componentWidth * 0.2;
-    //console.log({dragBound});
+    const singleElementSize = componentWidth * elementSizeInComparisionToComponent; //in pixels
+    const numberOfNotVisibleElements = numberOfElementsOnTheList-numberOfVisibleElements-numberOfPartiallyVisibleElements;
+    const hiddenPartElementSize = componentWidth * (elementSizeInComparisionToComponent - (1-numberOfVisibleElements*elementSizeInComparisionToComponent));//size of the hidden part of partially visible element
+
+    let dragBound = singleElementSize * numberOfNotVisibleElements + hiddenPartElementSize; //movement bounds of the list in pixels
+    console.log(componentWidth * elementSizeInComparisionToComponent);
     return dragBound;
   }
 
   window.addEventListener("resize", function() {
     if(scrollableListRef.current){
       setComponentWidth(scrollableListRef.current.offsetWidth);
+      console.log(scrollableListRef.current.offsetWidth);
     }
     
   });
