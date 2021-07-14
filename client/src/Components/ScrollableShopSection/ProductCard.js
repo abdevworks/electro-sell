@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
 
 
 function ProductCard(props){
@@ -25,9 +24,7 @@ function ProductCard(props){
                 <div className="h-1/3 px-2 w-full flex flex-col justify-between">
 
                     <span className="text-sm">
-                        <Link to={`/products/${props.product.id}`} draggable="false" >
-                            {props.product.name}
-                        </Link>
+                        {props.product.name}
                     </span>
 
                     <div className=" text-sm" draggable="false">
@@ -41,3 +38,7 @@ function ProductCard(props){
 }
 
 export default ProductCard;
+
+{/* <Link to={`/products/${props.product.id}`} draggable="false" >
+    {props.product.name}
+</Link> */}

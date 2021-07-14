@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
 
 
 function CategoryCard(props){
@@ -22,12 +21,10 @@ function CategoryCard(props){
                     </div>
                 </div>
 
-                <div className="h-1/3 px-2 w-full flex flex-col justify-between">
+                <div className="h-1/3 px-2 w-full flex flex-col justify-between" >
 
-                    <div className="text-lg font-semibold leading-tight pt-2">
-                        <Link to={`/products/${props.product.id}`} draggable="false" >
-                            {props.product.name}
-                        </Link>
+                    <div className="text-lg font-semibold leading-tight pt-2" >
+                        {props.product.name}
                     </div>
 
                     <div className=" text-sm text-gray-500" draggable="false">

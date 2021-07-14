@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect} from 'react'
 import { useSpring, animated } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
+import {Link} from "react-router-dom";
 
 
 export default function ScrollableList(props) {
@@ -8,6 +9,8 @@ export default function ScrollableList(props) {
   const [componentWidth, setComponentWidth] = useState(window.innerWidth);
   const {productData, displayAsRows=false} = props;
   const scrollableListRef = useRef(null);
+  const cardType = props.componentCard.name;
+
 
   /* Variables to calculate list movement bounds */
   const numberOfElementsOnTheList = 8;
@@ -21,23 +24,58 @@ export default function ScrollableList(props) {
     if(scrollableListRef.current){
         scrollableListWidth  = scrollableListRef.current.offsetWidth; 
         setComponentWidth(scrollableListWidth);
-        console.log(scrollableListWidth);
     }
-    //console.log(scrollableListRef.current.classList);
 }, [scrollableListRef]);
 
 useEffect(() => {
-  if(componentWidth < 711){
-    setNumberOfVisibleElements(3);
-    setElementSizeInComparisionToComponent(0.3);
-  }else if(componentWidth >= 711 && componentWidth < 967){
-    setNumberOfVisibleElements(4);
-    setElementSizeInComparisionToComponent(0.22);
-  }else if(componentWidth >= 967){
-    setNumberOfVisibleElements(5);
-    setElementSizeInComparisionToComponent(0.18);
+
+  const breakpoint = {
+    sm: 711,
+    md: 967
+  };
+
+  const breakpointCardSetting = {
+    "ProductCard": {
+      sm: {
+        visibleElements: 3,
+        componentPartSize: 0.3
+      },
+      md: {
+        visibleElements: 4,
+        componentPartSize: 0.22
+      },
+      lg: {
+        visibleElements: 5,
+        componentPartSize: 0.18
+      }
+    },
+    "CategoryCard": {
+      sm: {
+        visibleElements: 2,
+        componentPartSize: 0.4
+      },
+      md: {
+        visibleElements: 3,
+        componentPartSize: 0.3
+      },
+      lg: {
+        visibleElements: 4,
+        componentPartSize: 0.22
+      }
+    }
   }
-}, [componentWidth])
+  
+  if(componentWidth < breakpoint.sm){
+    setNumberOfVisibleElements(breakpointCardSetting[cardType].sm.visibleElements);
+    setElementSizeInComparisionToComponent(breakpointCardSetting[cardType].sm.componentPartSize);
+  }else if(componentWidth >= breakpoint.sm && componentWidth < breakpoint.md){
+    setNumberOfVisibleElements(breakpointCardSetting[cardType].md.visibleElements);
+    setElementSizeInComparisionToComponent(breakpointCardSetting[cardType].md.componentPartSize);
+  }else if(componentWidth >= breakpoint.md){
+    setNumberOfVisibleElements(breakpointCardSetting[cardType].lg.visibleElements);
+    setElementSizeInComparisionToComponent(breakpointCardSetting[cardType].lg.componentPartSize);
+  }
+}, [componentWidth, cardType])
 
   function calculateDragBounds(){
     const singleElementSize = componentWidth * elementSizeInComparisionToComponent; //in pixels
@@ -45,21 +83,20 @@ useEffect(() => {
     const hiddenPartElementSize = componentWidth * (elementSizeInComparisionToComponent - (1-numberOfVisibleElements*elementSizeInComparisionToComponent));//size of the hidden part of partially visible element
 
     let dragBound = singleElementSize * numberOfNotVisibleElements + hiddenPartElementSize; //movement bounds of the list in pixels
-    console.log(componentWidth * elementSizeInComparisionToComponent);
     return dragBound;
   }
 
   window.addEventListener("resize", function() {
     if(scrollableListRef.current){
       setComponentWidth(scrollableListRef.current.offsetWidth);
-      console.log(scrollableListRef.current.offsetWidth);
     }
     
   });
 
 
   const bind = useDrag(({ down, offset: [ox], tap }) => {
-    if (tap) alert('tap!')
+    //if (tap) alert('tap!')
+    //console.log("I was dragged!");
     set({ x: ox, immediate: down })
   },
   {
@@ -97,8 +134,13 @@ useEffect(() => {
 
     <div className="overflow-hidden pb-4">
         <animated.div ref={ scrollableListRef } className={`grid grid-flow-col grid-cols-${gridCardNumber.small} md:grid-cols-${gridCardNumber.medium}  ${displayAsRows  ? `lg:grid-flow-row lg:grid-cols-4 lg:grid-rows-2` : `lg:grid-cols-${gridCardNumber.large}`}`} {...bind()} style={(displayAsRows && window.innerWidth > 1025) ? {} : { x }}>
-          {productData.map((product)=>{
-            return <div to={`/products/${product.id}`} key={product.id} draggable="false"><props.componentCard product={product} /></div>
+          {productData.map(product => {
+            return (
+              <div to={`/products/${product.id}`} key={product.id} draggable="false">
+                <Link to={`/products/${product.id}`} onDrag={()=>console.log("Hello")}>
+                  <props.componentCard product={product} />
+                </Link>
+              </div>);
           })}
         </animated.div>
     </div>
