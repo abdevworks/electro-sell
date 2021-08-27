@@ -3,6 +3,7 @@ import ProductDataProvider from "../DataProvider/ProductDataProvider";
 import ScrollableList from "./ScrollableList";
 import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Link} from "react-router-dom";
 
 export default function ShopSection(props){
 
@@ -21,7 +22,7 @@ export default function ShopSection(props){
                 <h1 className=" font-semibold text-2xl pb-2 ">
                     {sectionName}
                 </h1>
-                <div className={`
+                <Link to="/product-category" className={`
                 select-none cursor-pointer rounded-full py-1 px-4 text-sm flex items-center
                 ${sectionLink ? "" : "hidden"} 
                 ${isHovered ? "bg-gray-100" : ""}`} 
@@ -29,7 +30,7 @@ export default function ShopSection(props){
                 >
                 <p className="pr-2">Show everything</p>
                 <FontAwesomeIcon icon={faChevronRight}/>
-                </div>
+                </Link>
             </div>
 
             {itemList}

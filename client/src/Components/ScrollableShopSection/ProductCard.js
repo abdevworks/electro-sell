@@ -39,6 +39,3 @@ function ProductCard(props){
 
 export default ProductCard;
 
-{/* <Link to={`/products/${props.product.id}`} draggable="false" >
-    {props.product.name}
-</Link> */}

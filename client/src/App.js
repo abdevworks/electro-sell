@@ -9,6 +9,10 @@ import Footer from "./Components/Footer";
 import Home from "./Views/Home";
 import About from "./Views/About";
 import Product from "./Views/Product";
+import Account from "./Views/Account";
+import Basket from "./Views/Basket";
+import ProductCategory from "./Views/ProductCategory";
+
 
 
 
@@ -24,8 +28,20 @@ function App() {
             <Route exact path="/">
               <Home />
             </Route>
-            <Route exact path="/about">
+            <Route exact path="/account">
+              <Account />
+            </Route>
+            <Route exact path="/basket">
+              <Basket />
+            </Route>
+            <Route exact path="/contact">
               <About />
+            </Route>
+          </Switch>
+            
+          <Switch>
+            <Route exact path="/product-category">
+              <ProductCategory />
             </Route>
             <Route exact path="/products/:id">
               <Product />

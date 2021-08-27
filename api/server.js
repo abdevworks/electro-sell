@@ -42,7 +42,7 @@ router.get('/api/hot_deal', (req, res) => {
             sold: 60,
             description: 'Green Cell Induction Charger AirJuice 15W', 
             images: [{image: "https://i.imgur.com/MM8evnx.jpg"}],
-            dealDeadline: '07/28/2021 16:22:16' }
+            dealDeadline: '09/28/2021 16:22:16' }
     ];
 
     res.json(products);

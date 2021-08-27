@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect} from 'react'
 import { useSpring, animated } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
-import {Link} from "react-router-dom";
 
 
 export default function ScrollableList(props) {
@@ -136,10 +135,8 @@ useEffect(() => {
         <animated.div ref={ scrollableListRef } className={`grid grid-flow-col grid-cols-${gridCardNumber.small} md:grid-cols-${gridCardNumber.medium}  ${displayAsRows  ? `lg:grid-flow-row lg:grid-cols-4 lg:grid-rows-2` : `lg:grid-cols-${gridCardNumber.large}`}`} {...bind()} style={(displayAsRows && window.innerWidth > 1025) ? {} : { x }}>
           {productData.map(product => {
             return (
-              <div to={`/products/${product.id}`} key={product.id} draggable="false">
-                <Link to={`/products/${product.id}`} onDrag={()=>console.log("Hello")}>
+              <div key={product.id} draggable="false">
                   <props.componentCard product={product} />
-                </Link>
               </div>);
           })}
         </animated.div>
